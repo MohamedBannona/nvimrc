@@ -57,15 +57,15 @@ local function update(msg)
 end
 
 vim.api.nvim_create_user_command("FetchRobloxDefinitions", function()
-  update "\x1b[31mDeleting old files...\x1b[0m"
+  update "Deleting old files..."
   if not Clear(defintionFilePath) then
     vim.fn.mkdir(defintionFilePath)
   end
 
-  update "\x1b[32mFetching types...\x1b[0m"
+  update "Fetching types..."
   GetglobalTypes()
 
-  update "\x1b[32mFetching API docs...\x1b[0m"
+  update "Fetching API docs..."
   GetApiDocs()
-  update "\x1b[34mDone!\x1b[0m"
+  update "Done!"
 end, { nargs = 0 })
