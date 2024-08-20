@@ -2,7 +2,9 @@ local defintionFilePath = vim.fn.stdpath "data" .. "\\LuauDefinitionFiles"
 
 local function Clear(dir)
   local handle = vim.uv.fs_scandir(dir)
-  if not handle then return false end
+  if not handle then
+    return false
+  end
 
   while true do
     local name, type = vim.uv.fs_scandir_next(handle)
@@ -41,8 +43,7 @@ if vim.fn.isdirectory(defintionFilePath) == 0 then
   GetApiDocs()
 else
   if not vim.uv.fs_stat(defintionFilePath .. "\\globalTypes.d.luau") then
-    print "luau not found 🥺"
-    --GetglobalTypes()
+    GetglobalTypes()
   end
 
   if not vim.uv.fs_stat(defintionFilePath .. "\\docs_en-us.json") then
@@ -57,11 +58,14 @@ end
 
 vim.api.nvim_create_user_command("FetchRobloxDefinitions", function()
   update "\x1b[31mDeleting old files...\x1b[0m"
-  if not Clear(defintionFilePath) then vim.fn.mkdir(defintionFilePath) end
+  if not Clear(defintionFilePath) then
+    vim.fn.mkdir(defintionFilePath)
+  end
 
   update "\x1b[32mFetching types...\x1b[0m"
   GetglobalTypes()
 
   update "\x1b[32mFetching API docs...\x1b[0m"
   GetApiDocs()
+  update "\x1b[34mDone!\x1b[0m"
 end, { nargs = 0 })
