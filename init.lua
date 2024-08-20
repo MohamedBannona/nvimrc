@@ -37,6 +37,5 @@ vim.schedule(function()
   require "mappings"
 end)
 
---// options
-
-vim.wo.relativenumber = true
+--load custom
+require"custom"
