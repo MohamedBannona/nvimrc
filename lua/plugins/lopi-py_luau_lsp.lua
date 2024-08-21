@@ -4,7 +4,7 @@ return {
   opts = {
     sourcemap = {
       rojo_path = "argon",
-      include_non_scripts = false,
+      autogenerate = false, --currently it uses rojo syntax so must disable
     },
   },
   dependencies = {
