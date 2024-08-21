@@ -3,6 +3,8 @@ require("nvchad.configs.lspconfig").defaults()
 
 local lspconfig = require "lspconfig"
 
+local defintionFilePath = vim.fn.stdpath "data" .. "\\LuauDefinitionFiles"
+print((defintionFilePath))
 -- EXAMPLE
 local genericservers = { "html", "cssls" }
 local nvlsp = require "nvchad.configs.lspconfig"
@@ -20,8 +22,11 @@ lspconfig.luau_lsp.setup {
   on_attach = nvlsp.on_attach,
   on_init = nvlsp.on_init,
   capabilities = nvlsp.capabilities,
+  cmd = { "luau-lsp", "lsp", "--definitions", defintionFilePath.."\\globalTypes.d.luau", "--docs", defintionFilePath.."\\docs_en-us.json" },
   settings = {
     platform = {
+      definitionFiles = { defintionFilePath .. "\\globalTypes.d.luau" },
+      documentationFiles = { defintionFilePath .. "\\docs_en-us.json" },
       type = "roblox",
     },
     types = {
