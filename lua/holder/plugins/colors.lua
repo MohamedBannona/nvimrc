@@ -1,17 +1,23 @@
-function ColorMyPencils(color)
-    color = color or "onenord"
-    vim.cmd.colorscheme(color)
+local dataFilePath = vim.fn.stdpath "data" .. "\\colors"
 
-    print(select(
-        2,
-        pcall(require("lualine").setup, {
-            options = {
-                -- ... your lualine config
-                theme = "onenord",
-                -- ... your lualine config
-            },
-        })
-    ))
+local data = {
+    default = "kanagawa",
+    background = "dark",
+}
+
+function ColorMyPencils(color, mode)
+    color = color or data.default
+    mode = mode or data.background
+    vim.cmd.colorscheme(color)
+    vim.o.background = mode
+
+    local file = io.open(dataFilePath, "w+")
+    if not file then
+        error("could not save colorscheme", 1)
+        return
+    end
+    file:write(color .. "\n" .. mode .. "\n")
+    file:close()
 
     --  vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
     --  vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
@@ -19,14 +25,29 @@ end
 
 local lualine_dependency = { "nvim-lualine/lualine.nvim" }
 
+do
+    local file = io.open(dataFilePath, "r")
+    if file then
+        local colorscheme, background = file:read("l", "l")
+        file:close()
+
+        if colorscheme and colorscheme ~= "" then
+            data.default = colorscheme
+        end
+
+        if background then
+            data.background = background
+        end
+    end
+end
+
 return {
     {
         "Mofiqul/dracula.nvim",
         name = "dracula",
         opts = {
-            show_end_of_buffer = true, -- default false
-            -- set italic comment
-            italic_comment = true,     -- default false
+            show_end_of_buffer = true,
+            italic_comment = true,
         },
         dependencies = lualine_dependency,
     },
@@ -34,17 +55,24 @@ return {
     {
         "rmehri01/onenord.nvim",
         name = "onenord",
-        config = function()
-            require("onenord").setup {
-                theme = "dark",
-                borders = true,
-                fade_nc = true,
-            }
+        opts = {
+            theme = "dark",
+            borders = true,
+            fade_nc = true,
+        },
+        dependencies = lualine_dependency,
+    },
 
-            vim.cmd "colorscheme rose-pine"
-
-            ColorMyPencils()
-        end,
+    {
+        "rebelot/kanagawa.nvim",
+        name = "kanagawa",
+        opts = {
+            theme = "wave", -- vim.o.background = ""
+            background = {
+                dark = "dragon", -- vim.o.background = "dark"
+                light = "lotus", -- vim.o.background = "light"
+            },
+        },
         dependencies = lualine_dependency,
     },
 }
