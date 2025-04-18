@@ -1,4 +1,5 @@
 local lsp_path = "D:\\Programs\\lsps\\"
+local signs = { ERROR = "", WARN = "", HINT = "", INFO = "" }
 
 local RobloxEnabled = true
 
@@ -78,6 +79,41 @@ vim.api.nvim_create_user_command("ToggleRoblox", function()
     RobloxEnabled = not RobloxEnabled
     setup_luau_lsp(RobloxEnabled)
 end, {})
+
+vim.diagnostic.config {
+    signs = {
+        text = {
+            [vim.diagnostic.severity.ERROR] = "",
+            [vim.diagnostic.severity.WARN] = "",
+            [vim.diagnostic.severity.INFO] = "",
+            [vim.diagnostic.severity.HINT] = "",
+        },
+        linehl = {
+            [vim.diagnostic.severity.ERROR] = "",
+            [vim.diagnostic.severity.WARN] = "",
+        },
+        numhl = {
+            [vim.diagnostic.severity.ERROR] = "ErrorMsg",
+            [vim.diagnostic.severity.WARN] = "WarningMsg",
+        },
+    },
+    virtual_text = {
+        prefix = "",
+        spacing = 2,
+        format = function(diagnostic)
+            local severity = vim.diagnostic.severity[diagnostic.severity]
+            local icon = signs[severity] or "●"
+            return icon .. " " .. diagnostic.message
+        end,
+    },
+    underline = true,
+    update_in_insert = false,
+    severity_sort = true,
+    float = {
+        border = "rounded",
+        source = "always",
+    },
+}
 
 return {
     "williamboman/mason.nvim",

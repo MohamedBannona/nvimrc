@@ -1,7 +1,7 @@
+require "holder.lazy_init"
+
 require "holder.set"
 require "holder.remap"
-
-require "holder.lazy_init"
 
 local augroup = vim.api.nvim_create_augroup
 local ThePrimeagenGroup = augroup("ThePrimeagen", {})

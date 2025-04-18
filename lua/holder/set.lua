@@ -28,3 +28,8 @@ vim.opt.colorcolumn = "100"
 vim.opt.timeoutlen = 5000
 
 vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
+
+vim.o.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]]
+vim.o.foldcolumn = "1"
+vim.o.foldlevel = 99
+vim.o.foldlevelstart = 99

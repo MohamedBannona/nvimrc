@@ -17,6 +17,7 @@ function Rojo_Project()
     end)
 end
 
+vim.g.mapleader = " "
 require("lazy").setup {
     defaults = { lazy = true },
     ui = {
