@@ -150,7 +150,6 @@ return {
                 "gopls",
                 "luau_lsp",
                 "clangd",
-                "selene",
             },
             handlers = {
                 function(server_name) -- default handler (optional)
