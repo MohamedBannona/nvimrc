@@ -128,6 +128,7 @@ return {
         "L3MON4D3/LuaSnip",
         "saadparwaiz1/cmp_luasnip",
         "lopi-py/luau-lsp.nvim",
+        "mfussenegger/nvim-lint",
     },
 
     lazy = false,
@@ -149,6 +150,7 @@ return {
                 "gopls",
                 "luau_lsp",
                 "clangd",
+                "selene",
             },
             handlers = {
                 function(server_name) -- default handler (optional)
