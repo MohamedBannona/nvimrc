@@ -11,7 +11,7 @@ return {
     },
     {
         "luukvbaal/statuscol.nvim",
-        lazy = false,
+        event = { "BufReadPost" },
         opts = function()
             local builtin = require "statuscol.builtin"
             return {

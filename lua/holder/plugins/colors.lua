@@ -8,8 +8,16 @@ local data = {
 function ColorMyPencils(color, mode)
     color = color or data.default
     mode = mode or data.background
+    if color == "flexoki" then
+        color = color .. "-" .. mode
+    end
+
     vim.cmd.colorscheme(color)
     vim.o.background = mode
+    vim.cmd [[
+    highlight BlinkCmpMenu guibg=none ctermbg=none
+    highlight BlinkCmpMenuBorder guibg=none ctermbg=none
+]]
 
     local file = io.open(dataFilePath, "w+")
     if not file then
@@ -73,6 +81,12 @@ return {
                 light = "lotus", -- vim.o.background = "light"
             },
         },
+        dependencies = lualine_dependency,
+    },
+    {
+        "kepano/flexoki-neovim",
+        name = "flexoki",
+        opts = { theme = "dark", borders = true },
         dependencies = lualine_dependency,
     },
 }

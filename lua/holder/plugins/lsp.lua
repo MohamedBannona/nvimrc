@@ -50,6 +50,9 @@ local function setup_luau_lsp(roblox)
         server = {
             settings = {
                 ["luau-lsp"] = {
+                    inlayHints = {
+                        parameterNames = "all",
+                    },
                     ignoreGlobs = {
                         "**/_Index/**",
                         "node_modules/**",
@@ -110,8 +113,12 @@ vim.diagnostic.config {
     update_in_insert = false,
     severity_sort = true,
     float = {
+        focusable = false,
+        style = "minimal",
         border = "rounded",
-        source = "always",
+        source = "if_many",
+        header = "",
+        prefix = "",
     },
 }
 
@@ -131,7 +138,7 @@ return {
         "mfussenegger/nvim-lint",
     },
 
-    lazy = false,
+    event = "BufReadPre",
 
     config = function()
         local cmp = require "cmp"
@@ -142,10 +149,15 @@ return {
             vim.lsp.protocol.make_client_capabilities(),
             cmp_lsp.default_capabilities()
         )
+        capabilities.textDocument.inlayHints = {
+            dynamicRegistration = true,
+            resolveProvider = true,
+        }
 
         require("mason").setup()
         require("mason-lspconfig").setup {
             ensure_installed = {
+                "rust_analyzer",
                 "lua_ls",
                 "gopls",
                 "luau_lsp",
@@ -185,11 +197,6 @@ return {
         }
 
         cmp.setup {
-            snippet = {
-                expand = function(args)
-                    require("luasnip").lsp_expand(args.body) -- For `luasnip` users.
-                end,
-            },
             mapping = {
                 ["<C-p>"] = cmp.mapping.select_prev_item(),
                 ["<C-n>"] = cmp.mapping.select_next_item(),
@@ -224,25 +231,17 @@ return {
                 end, { "i", "s" }),
             },
 
-            sources = {
+            --[[            sources = {
                 { name = "nvim_lsp" },
                 { name = "luasnip" },
                 { name = "buffer" },
                 { name = "nvim_lua" },
                 { name = "path" },
-            },
+                { name = "blink.cmp" },
+            },]]
         }
 
-        vim.diagnostic.config {
-            float = {
-                focusable = false,
-                style = "minimal",
-                border = "rounded",
-                source = "if_many",
-                header = "",
-                prefix = "",
-            },
-        }
+        vim.lsp.inlay_hint.enable(true)
 
         non_mason_managed()
     end,
