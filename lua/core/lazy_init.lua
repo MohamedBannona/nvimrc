@@ -29,7 +29,7 @@ require("lazy").setup {
         },
     },
     spec = {
-        { import = "holder.plugins" },
+        { import = "plugins" },
     },
     change_detection = { notify = false },
 }

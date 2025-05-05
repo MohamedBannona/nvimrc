@@ -1,6 +1,6 @@
 return {
     "saghen/blink.cmp",
-    event = "InsertEnter",
+    event = "InsertCharPre",
     dependencies = { "L3MON4D3/LuaSnip", version = "v2.*" },
     version = "v1.*",
     config = function()
@@ -29,10 +29,11 @@ return {
                 ["<C-d>"] = { "scroll_documentation_down", "fallback" },
                 ["<C-f>"] = { "scroll_documentation_up", "fallback" },
 
-                --["<C-Space>"] = cmp.mapping.complete(),
                 ["<C-e>"] = { "cancel", "fallback" },
-
                 ["<CR>"] = { "select_and_accept", "fallback" },
+
+                ["<S-Tab>"] = { "select_next", "snippet_backward", "fallback" },
+                ["<Tab>"] = { "select_next", "snippet_forward", "fallback" },
             },
             completion = {
                 menu = {
@@ -66,5 +67,10 @@ return {
                 },
             },
         }
+
+        vim.defer_fn(function()
+            vim.api.nvim_set_hl(0, "BlinkCmpMenu", { bg = "NONE" })
+            vim.api.nvim_set_hl(0, "BlinkCmpMenuBorder", { bg = "NONE" })
+        end, 500)
     end,
 }

@@ -14,10 +14,8 @@ function ColorMyPencils(color, mode)
 
     vim.cmd.colorscheme(color)
     vim.o.background = mode
-    vim.cmd [[
-    highlight BlinkCmpMenu guibg=none ctermbg=none
-    highlight BlinkCmpMenuBorder guibg=none ctermbg=none
-]]
+
+    require("lualine").setup()
 
     local file = io.open(dataFilePath, "w+")
     if not file then
@@ -27,8 +25,8 @@ function ColorMyPencils(color, mode)
     file:write(color .. "\n" .. mode .. "\n")
     file:close()
 
-    --  vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
-    --  vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
+    vim.api.nvim_set_hl(0, "BlinkCmpMenu", { bg = "NONE" })
+    vim.api.nvim_set_hl(0, "BlinkCmpMenuBorder", { bg = "NONE" })
 end
 
 local lualine_dependency = { "nvim-lualine/lualine.nvim" }
@@ -89,4 +87,5 @@ return {
         opts = { theme = "dark", borders = true },
         dependencies = lualine_dependency,
     },
+    { "projekt0n/github-nvim-theme", name = "github" },
 }

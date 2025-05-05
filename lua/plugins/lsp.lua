@@ -196,7 +196,7 @@ return {
             },
         }
 
-        cmp.setup {
+        --[[       cmp.setup {
             mapping = {
                 ["<C-p>"] = cmp.mapping.select_prev_item(),
                 ["<C-n>"] = cmp.mapping.select_next_item(),
@@ -238,8 +238,8 @@ return {
                 { name = "nvim_lua" },
                 { name = "path" },
                 { name = "blink.cmp" },
-            },]]
-        }
+            },
+        }]]
 
         vim.lsp.inlay_hint.enable(true)
 
