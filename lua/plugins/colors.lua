@@ -6,7 +6,7 @@ local data = {
 }
 
 function ColorMyPencils(color, mode)
-    color = color or data.default
+    color = (color or data.default):lower()
     mode = mode or data.background
     if color == "flexoki" then
         color = color .. "-" .. mode

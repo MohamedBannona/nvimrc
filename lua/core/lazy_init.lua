@@ -17,7 +17,6 @@ function Rojo_Project()
     end)
 end
 
-vim.g.mapleader = " "
 require("lazy").setup {
     defaults = { lazy = true },
     ui = {
@@ -34,4 +33,6 @@ require("lazy").setup {
     change_detection = { notify = false },
 }
 
+ColorMyPencils()
+--I dunno why some colors are broken the first time
 ColorMyPencils()
