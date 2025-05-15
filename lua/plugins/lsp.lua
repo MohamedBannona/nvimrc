@@ -49,27 +49,33 @@ local function setup_luau_lsp(roblox)
         },
         server = {
             settings = {
-                ["luau-lsp"] = {
-                    inlayHints = {
-                        parameterNames = "all",
-                    },
-                    ignoreGlobs = {
-                        "**/_Index/**",
-                        "node_modules/**",
-                        "packages/**",
-                        "roblox_packages/**",
-                        "lune_packages/**",
-                        "luau_packages/**",
-                    },
-                    hover = { multilineFunctionDefinitions = true },
-                    require = {
-                        mode = "relativeToFile",
-                        directoryAliases = type_aliases,
-                    },
-                    completion = {
-                        autocompleteEnd = true,
-                        imports = {
-                            enabled = true,
+                inlayHints = {
+                    parameterNames = "all",
+                },
+                ignoreGlobs = {
+                    "**/_Index/**",
+                    "node_modules/**",
+                    "packages/**",
+                    "roblox_packages/**",
+                    "lune_packages/**",
+                    "luau_packages/**",
+                },
+                hover = { multilineFunctionDefinitions = true },
+                require = {
+                    mode = "relativeToFile",
+                    directoryAliases = type_aliases,
+                },
+                completion = {
+                    autocompleteEnd = true,
+                    imports = {
+                        enabled = true,
+                        ignoreGlobs = {
+                            "**/_Index/**",
+                            "node_modules/**",
+                            "packages/**",
+                            "roblox_packages/**",
+                            "lune_packages/**",
+                            "luau_packages/**",
                         },
                     },
                 },
@@ -141,7 +147,6 @@ return {
     event = "BufReadPre",
 
     config = function()
-        local cmp = require "cmp"
         local cmp_lsp = require "cmp_nvim_lsp"
         local capabilities = vim.tbl_deep_extend(
             "force",
@@ -153,6 +158,9 @@ return {
             dynamicRegistration = true,
             resolveProvider = true,
         }
+        vim.lsp.config("luau_lsp", {
+            filetypes = {},
+        })
 
         require("mason").setup()
         require("mason-lspconfig").setup {
@@ -165,6 +173,9 @@ return {
             },
             handlers = {
                 function(server_name) -- default handler (optional)
+                    if server_name == "luau_lsp" then
+                        return
+                    end
                     require("lspconfig")[server_name].setup {
                         capabilities = capabilities,
                     }
