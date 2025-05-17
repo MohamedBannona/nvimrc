@@ -34,5 +34,3 @@ require("lazy").setup {
 }
 
 ColorMyPencils()
---I dunno why some colors are broken the first time
-ColorMyPencils()

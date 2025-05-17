@@ -135,6 +135,7 @@ return {
         "neovim/nvim-lspconfig",
         "hrsh7th/cmp-nvim-lsp",
         "hrsh7th/cmp-buffer",
+        "saghen/blink.cmp",
         "hrsh7th/cmp-path",
         "hrsh7th/cmp-cmdline",
         "hrsh7th/nvim-cmp",
@@ -147,20 +148,22 @@ return {
     event = "BufReadPre",
 
     config = function()
-        local cmp_lsp = require "cmp_nvim_lsp"
         local capabilities = vim.tbl_deep_extend(
             "force",
-            {},
             vim.lsp.protocol.make_client_capabilities(),
-            cmp_lsp.default_capabilities()
+            require("blink.cmp").get_lsp_capabilities(),
+            {
+                workspace = {
+                    didChangeWatchedFiles = {
+                        dynamicRegistration = true,
+                    },
+                },
+            }
         )
         capabilities.textDocument.inlayHints = {
             dynamicRegistration = true,
             resolveProvider = true,
         }
-        vim.lsp.config("luau_lsp", {
-            filetypes = {},
-        })
 
         require("mason").setup()
         require("mason-lspconfig").setup {
@@ -170,6 +173,11 @@ return {
                 "gopls",
                 "luau_lsp",
                 "clangd",
+            },
+            automatic_enable = {
+                exclude = {
+                    "luau_lsp",
+                },
             },
             handlers = {
                 function(server_name) -- default handler (optional)
@@ -182,6 +190,7 @@ return {
                 end,
 
                 luau_lsp = function()
+                    print "ah"
                     setup_luau_lsp(true)
                 end,
 

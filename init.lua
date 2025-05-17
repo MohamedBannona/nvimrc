@@ -64,6 +64,8 @@ autocmd("LspAttach", {
         vim.keymap.set("n", "]d", function()
             vim.diagnostic.goto_prev()
         end, opts)
+
+        vim.lsp.document_color.enable()
     end,
 })
 

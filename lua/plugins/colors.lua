@@ -5,6 +5,16 @@ local data = {
     background = "dark",
 }
 
+local function applyColors(color, mode)
+    vim.cmd.colorscheme(color)
+    vim.o.background = mode
+
+    require("lualine").setup()
+
+    vim.api.nvim_set_hl(0, "BlinkCmpMenu", { bg = "NONE" })
+    vim.api.nvim_set_hl(0, "BlinkCmpMenuBorder", { bg = "NONE" })
+end
+
 function ColorMyPencils(color, mode)
     color = (color or data.default):lower()
     mode = mode or data.background
@@ -12,10 +22,8 @@ function ColorMyPencils(color, mode)
         color = color .. "-" .. mode
     end
 
-    vim.cmd.colorscheme(color)
-    vim.o.background = mode
-
-    require("lualine").setup()
+    applyColors(color, mode)
+    applyColors(color, mode)
 
     local file = io.open(dataFilePath, "w+")
     if not file then
@@ -24,9 +32,6 @@ function ColorMyPencils(color, mode)
     end
     file:write(color .. "\n" .. mode .. "\n")
     file:close()
-
-    vim.api.nvim_set_hl(0, "BlinkCmpMenu", { bg = "NONE" })
-    vim.api.nvim_set_hl(0, "BlinkCmpMenuBorder", { bg = "NONE" })
 end
 
 local lualine_dependency = { "nvim-lualine/lualine.nvim" }
