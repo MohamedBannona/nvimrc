@@ -141,7 +141,7 @@ return {
         "hrsh7th/nvim-cmp",
         "L3MON4D3/LuaSnip",
         "saadparwaiz1/cmp_luasnip",
-        "lopi-py/luau-lsp.nvim",
+        { "lopi-py/luau-lsp.nvim", branch = "nvim-011" },
         "mfussenegger/nvim-lint",
     },
 
