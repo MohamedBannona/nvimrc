@@ -51,5 +51,22 @@ return {
                 additional_vim_regex_highlighting = { "markdown" },
             },
         }
+        local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
+        parser_config.cobol = {
+            install_info = {
+                url = "https://github.com/yutaro-sakamoto/tree-sitter-cobol.git",
+                files = {
+                    "src/parser.c",
+                    "src/scanner.c",
+                    "src/grammar.json",
+                    "src/node-types.json",
+                },
+                branch = "main",
+                generate_requires_npm = false,
+                requires_generate_from_grammar = false,
+            },
+            filetype = "cbl",
+        }
+        vim.treesitter.language.register("cobol", { "cbl", "cob" })
     end,
 }

@@ -49,37 +49,34 @@ local function setup_luau_lsp(roblox)
         },
         server = {
             settings = {
-                inlayHints = {
-                    parameterNames = "all",
-                },
-                ignoreGlobs = {
-                    "**/_Index/**",
-                    "node_modules/**",
-                    "packages/**",
-                    "roblox_packages/**",
-                    "lune_packages/**",
-                    "luau_packages/**",
-                },
-                hover = { multilineFunctionDefinitions = true },
-                require = {
-                    mode = "relativeToFile",
-                    directoryAliases = type_aliases,
-                },
-                completion = {
-                    autocompleteEnd = true,
-                    imports = {
-                        enabled = true,
-                        ignoreGlobs = {
-                            "**/_Index/**",
-                            "node_modules/**",
-                            "packages/**",
-                            "roblox_packages/**",
-                            "lune_packages/**",
-                            "luau_packages/**",
+                ["luau-lsp"] = {
+                    inlayHints = {
+                        parameterNames = "all",
+                    },
+                    ignoreGlobs = {
+                        "**/_Index/**",
+                        "node_modules/**",
+                        "packages/**",
+                        "roblox_packages/**",
+                        "lune_packages/**",
+                        "luau_packages/**",
+                    },
+                    hover = { multilineFunctionDefinitions = true },
+                    require = {
+                        mode = "relativeToFile",
+                        directoryAliases = type_aliases,
+                    },
+                    completion = {
+                        autocompleteEnd = true,
+                        imports = {
+                            enabled = true,
                         },
                     },
                 },
             },
+        },
+        fflags = {
+            enable_new_solver = true,
         },
     }
 end
@@ -133,14 +130,8 @@ return {
     dependencies = {
         "williamboman/mason-lspconfig.nvim",
         "neovim/nvim-lspconfig",
-        "hrsh7th/cmp-nvim-lsp",
-        "hrsh7th/cmp-buffer",
         "saghen/blink.cmp",
-        "hrsh7th/cmp-path",
-        "hrsh7th/cmp-cmdline",
-        "hrsh7th/nvim-cmp",
         "L3MON4D3/LuaSnip",
-        "saadparwaiz1/cmp_luasnip",
         { "lopi-py/luau-lsp.nvim", branch = "nvim-011" },
         "mfussenegger/nvim-lint",
     },
@@ -181,16 +172,12 @@ return {
             },
             handlers = {
                 function(server_name) -- default handler (optional)
-                    if server_name == "luau_lsp" then
-                        return
-                    end
                     require("lspconfig")[server_name].setup {
                         capabilities = capabilities,
                     }
                 end,
 
                 luau_lsp = function()
-                    print "ah"
                     setup_luau_lsp(true)
                 end,
 
@@ -219,5 +206,8 @@ return {
         vim.lsp.inlay_hint.enable(true)
 
         non_mason_managed()
+        if vim.version().prerelease == "dev" then
+            setup_luau_lsp(true)
+        end
     end,
 }

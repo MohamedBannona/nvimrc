@@ -23,6 +23,13 @@ return {
                 end
                 return s
             end,
+            custom_filter = function(bufId)
+                if vim.bo[bufId].buftype == "terminal" then
+                    return false
+                end
+
+                return true
+            end,
         },
     },
 }

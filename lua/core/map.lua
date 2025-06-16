@@ -1,5 +1,5 @@
 vim.g.mapleader = " "
-vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
+vim.keymap.set("n", "<leader>pv", vim.cmd.Oil)
 
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
@@ -40,6 +40,10 @@ vim.keymap.set("n", "<leader>bp", "<cmd>BufferLinePick<CR>")
 vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
 
 vim.keymap.set("n", "<leader>gee", "oif err != nil {<CR>}<Esc>Oreturn err<Esc>")
+
+vim.keymap.set("n", "<leader><S-D>", "<cmd>bw!<cr>")
+
+vim.keymap.set("t", "<esc><esc>", "<C-\\><C-N>")
 
 vim.keymap.set("n", "zR", function()
     require("ufo").openAllFolds()

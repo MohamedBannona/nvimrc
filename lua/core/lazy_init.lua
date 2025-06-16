@@ -11,12 +11,6 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-function Rojo_Project()
-    return vim.fs.root(0, function(name)
-        return name:match ".+%.project%.json$"
-    end)
-end
-
 require("lazy").setup {
     defaults = { lazy = true },
     ui = {

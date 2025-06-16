@@ -10,9 +10,6 @@ local function applyColors(color, mode)
     vim.o.background = mode
 
     require("lualine").setup()
-
-    vim.api.nvim_set_hl(0, "BlinkCmpMenu", { bg = "NONE" })
-    vim.api.nvim_set_hl(0, "BlinkCmpMenuBorder", { bg = "NONE" })
 end
 
 function ColorMyPencils(color, mode)
@@ -78,10 +75,10 @@ return {
         "rebelot/kanagawa.nvim",
         name = "kanagawa",
         opts = {
-            theme = "wave", -- vim.o.background = ""
+            theme = "wave",
             background = {
-                dark = "dragon", -- vim.o.background = "dark"
-                light = "lotus", -- vim.o.background = "light"
+                dark = "dragon",
+                light = "lotus",
             },
         },
         dependencies = lualine_dependency,
