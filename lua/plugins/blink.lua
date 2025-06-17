@@ -52,7 +52,7 @@ return {
                     ["<C-e>"] = { "cancel", "fallback" },
                     ["<CR>"] = { "select_and_accept", "fallback" },
 
-                    ["<S-Tab>"] = { "select_next", "snippet_backward", "fallback" },
+                    ["<S-Tab>"] = { "select_prev", "snippet_backward", "fallback" },
                     ["<Tab>"] = { "select_next", "snippet_forward", "fallback" },
                 },
                 completion = {

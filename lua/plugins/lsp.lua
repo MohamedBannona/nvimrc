@@ -136,7 +136,7 @@ return {
         "mfussenegger/nvim-lint",
     },
 
-    event = "BufReadPre",
+    event = { "BufNewFile", "BufReadPre" },
 
     config = function()
         local capabilities = vim.tbl_deep_extend(

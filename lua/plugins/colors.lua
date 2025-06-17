@@ -50,6 +50,8 @@ do
 end
 
 return {
+    lazy = false,
+    priorty = 100,
     {
         "Mofiqul/dracula.nvim",
         name = "dracula",
