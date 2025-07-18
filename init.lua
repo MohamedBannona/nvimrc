@@ -20,6 +20,12 @@ vim.filetype.add {
     },
 }
 
+vim.filetype.add {
+    extension = {
+        zap = "zap",
+    },
+}
+
 autocmd("TextYankPost", {
     group = yank_group,
     pattern = "*",
@@ -60,10 +66,10 @@ autocmd("LspAttach", {
             vim.lsp.buf.signature_help()
         end, opts)
         vim.keymap.set("n", "[d", function()
-            vim.diagnostic.goto_next()
+            vim.diagnostic.jump { count = 1, float = true }
         end, opts)
         vim.keymap.set("n", "]d", function()
-            vim.diagnostic.goto_prev()
+            vim.diagnostic.jump { count = -1, float = true }
         end, opts)
 
         vim.lsp.document_color.enable()

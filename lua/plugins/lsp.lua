@@ -45,8 +45,12 @@ local function setup_luau_lsp(roblox)
             roblox_security_level = "PluginSecurity",
         },
         sourcemap = {
-            generatorCommand = "argon sourcemap",
+            enabled = true,
+            rojo_path = "argon",
+            include_non_scripts = false,
+            generatorCommand = { "argon", "sourcemap", "-o", "sourcemap.json", "--none-scripts" },
         },
+
         server = {
             settings = {
                 ["luau-lsp"] = {
@@ -132,7 +136,7 @@ return {
         "neovim/nvim-lspconfig",
         "saghen/blink.cmp",
         "L3MON4D3/LuaSnip",
-        { "lopi-py/luau-lsp.nvim", branch = "nvim-011" },
+        "lopi-py/luau-lsp.nvim",
         "mfussenegger/nvim-lint",
     },
 
@@ -149,12 +153,16 @@ return {
                         dynamicRegistration = true,
                     },
                 },
+            },
+            {
+                textDocument = {
+                    inlayHint = {
+                        dynamicRegistration = true,
+                        resolveProvider = true,
+                    },
+                },
             }
         )
-        capabilities.textDocument.inlayHints = {
-            dynamicRegistration = true,
-            resolveProvider = true,
-        }
 
         require("mason").setup()
         require("mason-lspconfig").setup {

@@ -10,6 +10,9 @@ local function applyColors(color, mode)
     vim.o.background = mode
 
     require("lualine").setup()
+
+    vim.api.nvim_set_hl(0, "BlinkCmpMenu", { bg = "NONE" })
+    vim.api.nvim_set_hl(0, "BlinkCmpMenuBorder", { bg = "NONE" })
 end
 
 function ColorMyPencils(color, mode)

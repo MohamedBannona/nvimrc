@@ -51,6 +51,7 @@ return {
                 additional_vim_regex_highlighting = { "markdown" },
             },
         }
+        require("nvim-treesitter.install").compilers = { "zig", "clang", "gcc" }
         local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
         parser_config.cobol = {
             install_info = {
@@ -58,8 +59,6 @@ return {
                 files = {
                     "src/parser.c",
                     "src/scanner.c",
-                    "src/grammar.json",
-                    "src/node-types.json",
                 },
                 branch = "main",
                 generate_requires_npm = false,
@@ -67,6 +66,20 @@ return {
             },
             filetype = "cbl",
         }
-        vim.treesitter.language.register("cobol", { "cbl", "cob" })
+
+        parser_config.zap = {
+            install_info = {
+                url = "https://github.com/filiptibell/tree-sitter-zap.git",
+                files = {
+                    "src/parser.c",
+                },
+                branch = "main",
+                generate_requires_npm = false,
+                requires_generate_from_grammar = false,
+            },
+            filetype = "zap",
+        }
+
+        vim.treesitter.language.register("zap", "zap")
     end,
 }
