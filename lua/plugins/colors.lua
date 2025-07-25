@@ -1,11 +1,19 @@
 local dataFilePath = vim.fn.stdpath "data" .. "\\colors"
 
 local data = {
-    default = "kanagawa",
+    default = "kanagawa-wave",
     background = "dark",
 }
 
 local function applyColors(color, mode)
+    local split = string.split(color, "-")
+    if split[1] == "everforest" then
+        color = split[1]
+        if split[2] then
+            vim.g.everforest_background = split[2]
+        end
+    end
+
     vim.cmd.colorscheme(color)
     vim.o.background = mode
 
@@ -95,4 +103,5 @@ return {
         dependencies = lualine_dependency,
     },
     { "projekt0n/github-nvim-theme", name = "github" },
+    { "sainnhe/everforest", name = "everforest" },
 }

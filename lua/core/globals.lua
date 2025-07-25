@@ -22,3 +22,14 @@ function Create_Floating_Window(opts, bufId)
 
     return buf, winid
 end
+
+function string.split(str, sep)
+    sep = sep or ","
+    local fields = {}
+
+    for field in string.gmatch(str, "[^" .. sep .. "]+") do
+        table.insert(fields, field)
+    end
+
+    return fields
+end

@@ -20,6 +20,11 @@ return {
                     "bin\\",
                 },
             },
+            pickers = {
+                quickfix = {
+                    theme = "cursor",
+                },
+            },
         }
 
         local builtin = require "telescope.builtin"
