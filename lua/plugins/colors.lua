@@ -1,9 +1,50 @@
-local dataFilePath = vim.fn.stdpath "data" .. "\\colors"
+local dataFilePath = vim.fn.stdpath "data" .. filePathSeperator .. "colors"
 
 local data = {
     default = "kanagawa-wave",
     background = "dark",
 }
+
+local transparentGroups = {
+    "Normal",
+    "NormalNC",
+    "Comment",
+    "Constant",
+    "Special",
+    "Identifier",
+    "Statement",
+    "PreProc",
+    "Type",
+    "Underlined",
+    "Todo",
+    "String",
+    "Function",
+    "Conditional",
+    "Repeat",
+    "Operator",
+    "Structure",
+    "LineNr",
+    "NonText",
+    "SignColumn",
+    "CursorLine",
+    "CursorLineNr",
+    "EndOfBuffer",
+}
+
+local isTransparent = false
+
+---@param group string|string[]
+local function clearGroup(group)
+    local groups = type(group) == "string" and { group } or group
+    for _, v in ipairs(groups) do
+        local ok, prev_attrs = pcall(vim.api.nvim_get_hl, 0, { name = v })
+        if ok and (prev_attrs.background or prev_attrs.bg or prev_attrs.ctermbg) then
+            local attrs = vim.tbl_extend("force", prev_attrs, { bg = "NONE", ctermbg = "NONE" })
+            attrs[true] = nil
+            vim.api.nvim_set_hl(0, v, attrs)
+        end
+    end
+end
 
 local function applyColors(color, mode)
     local split = string.split(color, "-")
@@ -18,6 +59,10 @@ local function applyColors(color, mode)
     vim.o.background = mode
 
     require("lualine").setup()
+
+    if isTransparent then
+        clearGroup(transparentGroups)
+    end
 
     vim.api.nvim_set_hl(0, "BlinkCmpMenu", { bg = "NONE" })
     vim.api.nvim_set_hl(0, "BlinkCmpMenuBorder", { bg = "NONE" })
@@ -59,6 +104,14 @@ do
         end
     end
 end
+
+vim.api.nvim_create_user_command("EnableTransparent", function()
+    if vim.fn.has "win32" == 1 then
+        return
+    end
+    isTransparent = true
+    clearGroup(transparentGroups)
+end, {})
 
 return {
     lazy = false,

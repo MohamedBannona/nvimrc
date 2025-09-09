@@ -1,3 +1,5 @@
+filePathSeperator = vim.fn.has "win32" == 1 and "\\" or "/"
+
 local floating_window_config = {
     relative = "editor",
     row = math.floor((vim.o.lines - 8) / 2),
