@@ -23,16 +23,7 @@ vim.opt.isfname:append "@-@"
 
 vim.opt.updatetime = 50
 
-vim.opt.colorcolumn = "100"
-
 vim.opt.timeoutlen = 5000
-
-vim.opt.shell = "pwsh.exe"
-vim.opt.shellcmdflag = "-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command "
-vim.opt.shellxquote = ""
-vim.opt.shellquote = ""
-vim.opt.shellredir = "2>&1 | Out-File -Encoding UTF8 %s"
-vim.opt.shellpipe = "2>&1 | Out-File -Encoding UTF8 %s"
 
 vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
 
@@ -40,3 +31,14 @@ vim.o.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]]
 vim.o.foldcolumn = "1"
 vim.o.foldlevel = 99
 vim.o.foldlevelstart = 99
+
+if vim.fn.has "win32" == 1 then
+    vim.opt.colorcolumn = "100"
+
+    vim.opt.shell = "pwsh.exe"
+    vim.opt.shellcmdflag = "-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command "
+    vim.opt.shellxquote = ""
+    vim.opt.shellquote = ""
+    vim.opt.shellredir = "2>&1 | Out-File -Encoding UTF8 %s"
+    vim.opt.shellpipe = "2>&1 | Out-File -Encoding UTF8 %s"
+end

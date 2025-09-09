@@ -5,8 +5,6 @@ return {
         local lint = require "lint"
         lint.linters_by_ft = {
             markdown = { "markdownlint" },
-            lua = not vim.fn.getcwd():find("^" .. vim.fn.stdpath "config") and { "selene" },
-            luau = { "selene" },
         }
 
         -- To allow other plugins to add linters to require('lint').linters_by_ft,

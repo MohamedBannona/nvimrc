@@ -104,4 +104,5 @@ return {
     },
     { "projekt0n/github-nvim-theme", name = "github" },
     { "sainnhe/everforest", name = "everforest" },
+    { "catppuccin/nvim", name = "catppuccin" },
 }

@@ -71,14 +71,8 @@ autocmd("LspAttach", {
         vim.keymap.set("n", "]d", function()
             vim.diagnostic.jump { count = -1, float = true }
         end, opts)
-
-        vim.lsp.document_color.enable()
     end,
 })
-
-vim.g.netrw_browse_split = 0
-vim.g.netrw_banner = 0
-vim.g.netrw_winsize = 25
 
 vim.api.nvim_set_hl(0, "NormalFloat", { bg = "NONE" })
 vim.api.nvim_set_hl(0, "FloatBorder", { bg = "NONE" })
