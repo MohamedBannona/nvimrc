@@ -23,7 +23,10 @@ local function setup_luau_lsp(roblox)
     local luau_lsp = require "luau-lsp"
     local rojo_project = Rojo_Project()
 
-    local lune_ver = string.match(vim.fn.system "lune -V", "%d+%.%d+%.%d+")
+    local lune_ver = string.match(vim.fn.system "lune10 -V", "%d+%.%d+%.%d+")
+    if not lune_ver then
+        lune_ver = string.match(vim.fn.system "lune -V", "%d+%.%d+%.%d+")
+    end
     local lune_typedefs = "~/.lune/.typedefs/" .. lune_ver .. "/"
 
     local type_aliases
@@ -88,6 +91,7 @@ end
 vim.api.nvim_create_user_command("ToggleRoblox", function()
     RobloxEnabled = not RobloxEnabled
     setup_luau_lsp(RobloxEnabled)
+    vim.cmd "LspRestart luau-lsp"
 end, {})
 
 vim.diagnostic.config {
@@ -98,10 +102,7 @@ vim.diagnostic.config {
             [vim.diagnostic.severity.INFO] = "",
             [vim.diagnostic.severity.HINT] = "",
         },
-        linehl = {
-            [vim.diagnostic.severity.ERROR] = "",
-            [vim.diagnostic.severity.WARN] = "",
-        },
+        linehl = {},
         numhl = {
             [vim.diagnostic.severity.ERROR] = "ErrorMsg",
             [vim.diagnostic.severity.WARN] = "WarningMsg",
@@ -110,6 +111,7 @@ vim.diagnostic.config {
     virtual_text = {
         prefix = "",
         spacing = 2,
+        source = true,
         format = function(diagnostic)
             local severity = vim.diagnostic.severity[diagnostic.severity]
             local icon = signs[severity] or "●"

@@ -13,6 +13,7 @@ local function toggleTerm()
         }
         vim.cmd.terminal()
         on = true
+        vim.cmd.startinsert()
     elseif on then
         if vim.api.nvim_win_is_valid(winId) then
             vim.api.nvim_win_hide(winId)
@@ -30,7 +31,8 @@ local function toggleTerm()
             col = math.floor((vim.o.columns - width) / 2),
         }, bufId)
         on = true
+        vim.cmd.startinsert()
     end
 end
 
-vim.keymap.set({ "t", "n" }, "<leader>tt", toggleTerm)
+vim.keymap.set({ "n" }, "<leader>tt", toggleTerm)
