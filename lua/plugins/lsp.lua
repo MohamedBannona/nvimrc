@@ -4,9 +4,8 @@ local signs = { ERROR = "", WARN = "", HINT = "", INFO = "" }
 local RobloxEnabled = true
 
 local function non_mason_managed()
-    local config = require "lspconfig"
     local util = require "lspconfig.util"
-    config.zls.setup {
+    vim.lsp.config("zls", {
         cmd = { lsp_path .. "\\zls\\zls.exe" },
         on_new_config = function(new_config, new_root_dir)
             if vim.fn.filereadable(vim.fs.joinpath(new_root_dir, "zls.json")) ~= 0 then
@@ -16,7 +15,7 @@ local function non_mason_managed()
         filetypes = { "zig", "zir" },
         root_dir = util.root_pattern("zls.json", "build.zig", ".git"),
         single_file_support = true,
-    }
+    })
 end
 
 local function setup_luau_lsp(roblox)
@@ -182,9 +181,9 @@ return {
             },
             handlers = {
                 function(server_name) -- default handler (optional)
-                    require("lspconfig")[server_name].setup {
+                    vim.lsp.config(server_name, {
                         capabilities = capabilities,
-                    }
+                    })
                 end,
 
                 luau_lsp = function()
@@ -192,8 +191,7 @@ return {
                 end,
 
                 ["lua_ls"] = function()
-                    local lspconfig = require "lspconfig"
-                    lspconfig.lua_ls.setup {
+                    vim.lsp.config("lua_ls", {
                         capabilities = capabilities,
                         settings = {
                             Lua = {
@@ -208,7 +206,7 @@ return {
                                 },
                             },
                         },
-                    }
+                    })
                 end,
             },
         }
