@@ -216,8 +216,6 @@ return {
         vim.lsp.inlay_hint.enable(true)
 
         non_mason_managed()
-        if vim.version().prerelease == "dev" then
-            setup_luau_lsp(true)
-        end
+        setup_luau_lsp(true)
     end,
 }
