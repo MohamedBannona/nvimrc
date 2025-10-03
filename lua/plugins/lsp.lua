@@ -108,16 +108,7 @@ vim.diagnostic.config {
             [vim.diagnostic.severity.WARN] = "WarningMsg",
         },
     },
-    virtual_text = {
-        prefix = "",
-        spacing = 2,
-        source = true,
-        format = function(diagnostic)
-            local severity = vim.diagnostic.severity[diagnostic.severity]
-            local icon = signs[severity] or "●"
-            return icon .. " " .. diagnostic.message
-        end,
-    },
+    virtual_lines = true,
     underline = true,
     update_in_insert = false,
     severity_sort = true,
