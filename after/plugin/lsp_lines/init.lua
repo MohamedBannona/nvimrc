@@ -1,6 +1,9 @@
 --skidded from https://git.sr.ht/~whynothugo/lsp_lines.nvim
 
-local render = require "after.plugin.lsp_lines.render"
+local here = ";" .. vim.fn.stdpath "config" .. "/after/plugin/lsp_lines/?.lua"
+package.path = package.path .. here
+local render = require "render"
+package.path = package.path:gsub(here, "")
 
 local function render_current_line(diagnostics, ns, bufnr, opts)
     local current_line_diag = {}

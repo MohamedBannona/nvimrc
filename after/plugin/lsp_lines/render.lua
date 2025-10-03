@@ -12,18 +12,10 @@ local config = {
 }
 
 local HIGHLIGHTS = {
-    native = {
-        [vim.diagnostic.severity.ERROR] = "DiagnosticVirtualTextError",
-        [vim.diagnostic.severity.WARN] = "DiagnosticVirtualTextWarn",
-        [vim.diagnostic.severity.INFO] = "DiagnosticVirtualTextInfo",
-        [vim.diagnostic.severity.HINT] = "DiagnosticVirtualTextHint",
-    },
-    coc = {
-        [vim.diagnostic.severity.ERROR] = "CocErrorVirtualText",
-        [vim.diagnostic.severity.WARN] = "CocWarningVirtualText",
-        [vim.diagnostic.severity.INFO] = "CocInfoVirtualText",
-        [vim.diagnostic.severity.HINT] = "CocHintVirtualText",
-    },
+    [vim.diagnostic.severity.ERROR] = "DiagnosticVirtualTextError",
+    [vim.diagnostic.severity.WARN] = "DiagnosticVirtualTextWarn",
+    [vim.diagnostic.severity.INFO] = "DiagnosticVirtualTextInfo",
+    [vim.diagnostic.severity.HINT] = "DiagnosticVirtualTextHint",
 }
 
 -- These don't get copied, do they? We only pass around and compare pointers, right?
@@ -53,8 +45,7 @@ end
 ---@param bufnr number
 ---@param diagnostics table
 ---@param opts boolean|Opts
----@param source 'native'|'coc'|nil If nil, defaults to 'native'.
-function M.show(namespace, bufnr, diagnostics, opts, source)
+function M.show(namespace, bufnr, diagnostics, opts)
     if not vim.api.nvim_buf_is_loaded(bufnr) then
         return
     end
@@ -81,7 +72,6 @@ function M.show(namespace, bufnr, diagnostics, opts, source)
     if #diagnostics == 0 then
         return
     end
-    local highlight_groups = HIGHLIGHTS[source or "native"]
 
     -- This loop reads line by line, and puts them into stacks with some
     -- extra data, since rendering each line will require understanding what
@@ -141,7 +131,7 @@ function M.show(namespace, bufnr, diagnostics, opts, source)
                 if opts.virtual_lines and opts.virtual_lines.highlight_whole_line == false then
                     empty_space_hi = ""
                 else
-                    empty_space_hi = highlight_groups[diagnostic.severity]
+                    empty_space_hi = HIGHLIGHTS[diagnostic.severity]
                 end
 
                 local left = {}
@@ -158,23 +148,20 @@ function M.show(namespace, bufnr, diagnostics, opts, source)
                         else
                             table.insert(left, {
                                 string.rep(chars.horizontal, data:len()),
-                                highlight_groups[diagnostic.severity],
+                                HIGHLIGHTS[diagnostic.severity],
                             })
                         end
                     elseif type == DIAGNOSTIC then
                         -- If an overlap follows this, don't add an extra column.
                         if lelements[j + 1][1] ~= OVERLAP then
-                            table.insert(left, { chars.vertical, highlight_groups[data.severity] }) -- │
+                            table.insert(left, { chars.vertical, HIGHLIGHTS[data.severity] }) -- │
                         end
                         overlap = false
                     elseif type == BLANK then
                         if multi == 0 then
-                            table.insert(left, { chars.up_right, highlight_groups[data.severity] }) -- └
+                            table.insert(left, { chars.up_right, HIGHLIGHTS[data.severity] }) -- └
                         else
-                            table.insert(
-                                left,
-                                { chars.horizontal_up, highlight_groups[data.severity] }
-                            ) -- ┴
+                            table.insert(left, { chars.horizontal_up, HIGHLIGHTS[data.severity] }) -- ┴
                         end
                         multi = multi + 1
                     elseif type == OVERLAP then
@@ -199,7 +186,7 @@ function M.show(namespace, bufnr, diagnostics, opts, source)
                             center_symbol,
                             string.rep(chars.horizontal, 4) .. " "
                         ),
-                        highlight_groups[diagnostic.severity],
+                        HIGHLIGHTS[diagnostic.severity],
                     },
                 }
 
@@ -219,14 +206,14 @@ function M.show(namespace, bufnr, diagnostics, opts, source)
                     local vline = {}
                     vim.list_extend(vline, left)
                     vim.list_extend(vline, center)
-                    vim.list_extend(vline, { { msg_line, highlight_groups[diagnostic.severity] } })
+                    vim.list_extend(vline, { { msg_line, HIGHLIGHTS[diagnostic.severity] } })
 
                     table.insert(virt_lines, vline)
 
                     -- Special-case for continuation lines:
                     if overlap then
                         center = {
-                            { chars.vertical, highlight_groups[diagnostic.severity] },
+                            { chars.vertical, HIGHLIGHTS[diagnostic.severity] },
                             { "     ", empty_space_hi },
                         }
                     else
